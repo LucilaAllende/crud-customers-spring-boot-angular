@@ -1,0 +1,18 @@
+<h2>Crear Customer</h2>
+<div class="container">
+  <form>
+    <div class="form-group">
+      <label for="firstName" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="firstName" [(ngModel)]="firstName" name="firstName" required>
+    </div>
+    <div class="form-group">
+      <label for="lastName" class="form-label">Last Name</label>
+      <input type="text" class="form-control" id="lastName" [(ngModel)]="lastName" name="lastName" required>
+    </div>
+    <div class="form-group">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" [(ngModel)]="email" name="email" required>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="createCustomer()">Crear</button>
+  </form>
+</div>
