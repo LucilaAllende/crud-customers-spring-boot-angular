@@ -1,27 +1,27 @@
 <div class="container">
-<h2>Listado de Customers</h2>
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Id</th>
-      <th>Nombre</th>
-      <th>Apellido</th>
-      <th>Email</th>
-      <th>Acciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let customer of customers">
-      <td>{{ customer.id }}</td>
-      <td>{{ customer.firstName }}</td>
-      <td>{{ customer.lastName }}</td>
-      <td>{{ customer.email }}</td>
+  <h2>Listado de Customers</h2>
+  <a class="btn btn-primary" routerLink="/customers/add">Crear Customer</a>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers">
+        <td>{{ customer.id }}</td>
+        <td>{{ customer.firstName }}</td>
+        <td>{{ customer.lastName }}</td>
+        <td>{{ customer.email }}</td>
         <td class="d-flex justify-content-around">
-        <button class="btn btn-info">Editar</button>
-        <button class="btn btn-danger">Eliminar</button>
-      </td>
-    </tr>
-  </tbody>
+          <button class="btn btn-info">Editar</button>
+          <button class="btn btn-danger">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>
