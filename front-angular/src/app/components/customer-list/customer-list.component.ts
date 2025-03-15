@@ -29,4 +29,16 @@ export class CustomerListComponent implements OnInit {
     );
   }
 
+  deleteCustomer(id?: number) {
+    if (id === undefined) {
+      console.error('Error: ID es undefined');
+      return;
+    }
+    this.customerService.deleteCustomerById(id).subscribe(
+      () => {
+        this.listCustomers();
+      }
+    );
+  }
+
 }
