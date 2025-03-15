@@ -19,7 +19,7 @@
         <td>{{ customer.email }}</td>
         <td class="d-flex justify-content-around">
           <button class="btn btn-info">Editar</button>
-          <button class="btn btn-danger">Eliminar</button>
+          <button class="btn btn-danger" (click)="deleteCustomer(customer.id)">Eliminar</button>
         </td>
       </tr>
     </tbody>
