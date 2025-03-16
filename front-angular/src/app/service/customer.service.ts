@@ -20,7 +20,7 @@ export class CustomerService {
     return this.http.post<Customer>(this.api, customer);
   }
 
-  deleteCustomerById(id: number): Observable<Customer> {
-    return this.http.delete<Customer>(`${this.api}/${id}`);
+  deleteCustomerById(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.api}/${id}`);
   }
 }
