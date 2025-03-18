@@ -24,7 +24,6 @@ export class CustomerAddComponent implements OnInit {
 
   createCustomer(): void {
     let customer = new Customer(this.firstName, this.lastName, this.email);
-    console.log('createCustomer',customer);
     this.customerService.createCustomer(customer).subscribe(
       data => {
         console.log('res',data);
