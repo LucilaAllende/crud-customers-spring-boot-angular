@@ -41,4 +41,16 @@ describe('CustomerListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should list customers on init', () => {
+    expect(component.customers.length).toBe(2);
+    expect(component.customers[0].firstName).toBe('John');
+  });
+
+  it('should call deleteCustomerById and refresh list', () => {
+    component.deleteCustomer(1);
+    
+    expect(customerServiceSpy.deleteCustomerById).toHaveBeenCalledWith(1);
+    expect(customerServiceSpy.getCustomers).toHaveBeenCalled();
+  });
 });
