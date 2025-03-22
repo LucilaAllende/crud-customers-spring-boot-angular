@@ -1,26 +1,26 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CustomerAddComponent } from './customer-add.component';
+import { CustomerFormComponent } from './customer-form.component';
 import { CustomerService } from '../../service/customer.service';
 import { FormsModule } from '@angular/forms';
 import { Customer } from '../../class/customer';
 import { of } from 'rxjs';
 
 describe('CustomerAddComponent', () => {
-  let component: CustomerAddComponent;
-  let fixture: ComponentFixture<CustomerAddComponent>;
+  let component: CustomerFormComponent;
+  let fixture: ComponentFixture<CustomerFormComponent>;
   let customerServiceSpy: jasmine.SpyObj<CustomerService>;
 
   beforeEach(async () => {
     customerServiceSpy = jasmine.createSpyObj('CustomerService', ['createCustomer']);
 
     await TestBed.configureTestingModule({
-      imports: [CustomerAddComponent, FormsModule],
+      imports: [CustomerFormComponent, FormsModule],
       providers: [{ provide: CustomerService, useValue: customerServiceSpy }]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CustomerAddComponent);
+    fixture = TestBed.createComponent(CustomerFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
