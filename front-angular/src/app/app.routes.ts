@@ -11,4 +11,8 @@ export const routes: Routes = [
     path: 'customers/add',
     component: CustomerFormComponent,
   },
+  {
+    path: 'customers/edit/:id',
+    component: CustomerFormComponent,
+  },
 ];
