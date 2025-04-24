@@ -5,6 +5,7 @@ import { CustomerService } from '../../service/customer.service';
 import { FormsModule } from '@angular/forms';
 import { Customer } from '../../class/customer';
 import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 describe('CustomerAddComponent', () => {
   let component: CustomerFormComponent;
@@ -16,7 +17,10 @@ describe('CustomerAddComponent', () => {
 
     await TestBed.configureTestingModule({
       imports: [CustomerFormComponent, FormsModule],
-      providers: [{ provide: CustomerService, useValue: customerServiceSpy }]
+      providers: [
+        { provide: CustomerService, useValue: customerServiceSpy },
+        { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => null } } } }
+      ]
     })
     .compileComponents();
 
@@ -35,9 +39,9 @@ describe('CustomerAddComponent', () => {
     customerServiceSpy.createCustomer.and.returnValue(of(mockCustomer));
     
     // Asignamos valores a las propiedades del componente
-    component.firstName = 'John';
-    component.lastName = 'Doe';
-    component.email = 'john@example.com';
+    component.customer.firstName = 'John';
+    component.customer.lastName = 'Doe';
+    component.customer.email = 'john@example.com';
     
     // Disparamos el método createCustomer
     component.createCustomer();
@@ -65,8 +69,8 @@ describe('CustomerAddComponent', () => {
     fixture.detectChanges();
 
     // Verificamos que las propiedades del componente se han actualizado correctamente
-    expect(component.firstName).toBe('John');
-    expect(component.lastName).toBe('Doe');
-    expect(component.email).toBe('john@example.com');
+    expect(component.customer.firstName).toBe('John');
+    expect(component.customer.lastName).toBe('Doe');
+    expect(component.customer.email).toBe('john@example.com');
   });
 });
