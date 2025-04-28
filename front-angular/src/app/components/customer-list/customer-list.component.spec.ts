@@ -42,15 +42,38 @@ describe('CustomerListComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should call listCustomers on init', () => {
+    const listCustomersSpy = spyOn(component, 'listCustomers').and.callThrough();
+    component.ngOnInit();
+    expect(listCustomersSpy).toHaveBeenCalled();
+  });
+
   it('should list customers on init', () => {
     expect(component.customers.length).toBe(2);
     expect(component.customers[0].firstName).toBe('John');
   });
 
-  it('should call deleteCustomerById and refresh list', () => {
+  it('should render customers in the table', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const tableRows = compiled.querySelectorAll('tbody tr');
+
+    expect(tableRows.length).toBe(2);
+    expect(tableRows[0].textContent).toContain('John');
+    expect(tableRows[0].textContent).toContain('Doe');
+    expect(tableRows[0].textContent).toContain('john@example.com');
+    expect(tableRows[1].textContent).toContain('Jane');
+  });
+
+  it('should call deleteCustomerById and refresh list when deleteCustomer is called with valid id', () => {
     component.deleteCustomer(1);
     
     expect(customerServiceSpy.deleteCustomerById).toHaveBeenCalledWith(1);
-    expect(customerServiceSpy.getCustomers).toHaveBeenCalled();
+    expect(customerServiceSpy.getCustomers).toHaveBeenCalledTimes(2); // Una en init y otra después de eliminar
+  });
+
+  it('should not call deleteCustomerById when deleteCustomer is called with undefined id', () => {
+    component.deleteCustomer(undefined);
+    
+    expect(customerServiceSpy.deleteCustomerById).not.toHaveBeenCalled();
   });
 });
