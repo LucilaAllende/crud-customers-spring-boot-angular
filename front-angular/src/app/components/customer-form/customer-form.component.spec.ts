@@ -7,22 +7,23 @@ import { Customer } from '../../class/customer';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
-describe('CustomerAddComponent', () => {
+describe('CustomerFormComponent', () => {
   let component: CustomerFormComponent;
   let fixture: ComponentFixture<CustomerFormComponent>;
   let customerServiceSpy: jasmine.SpyObj<CustomerService>;
+  let activatedRouteMock: any;
 
   beforeEach(async () => {
-    customerServiceSpy = jasmine.createSpyObj('CustomerService', ['createCustomer']);
+    customerServiceSpy = jasmine.createSpyObj('CustomerService', ['createCustomer', 'getCustomerById', 'updateCustomer']);
+    activatedRouteMock = { snapshot: { paramMap: { get: jasmine.createSpy() } } };
 
     await TestBed.configureTestingModule({
       imports: [CustomerFormComponent, FormsModule],
       providers: [
         { provide: CustomerService, useValue: customerServiceSpy },
-        { provide: ActivatedRoute, useValue: { snapshot: { paramMap: { get: () => null } } } }
+        { provide: ActivatedRoute, useValue: activatedRouteMock }
       ]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CustomerFormComponent);
     component = fixture.componentInstance;
@@ -31,23 +32,6 @@ describe('CustomerAddComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should call createCustomer when the form is submitted', () => {
-    const mockCustomer = new Customer('John', 'Doe', 'john@example.com');
-    
-    customerServiceSpy.createCustomer.and.returnValue(of(mockCustomer));
-    
-    // Asignamos valores a las propiedades del componente
-    component.customer.firstName = 'John';
-    component.customer.lastName = 'Doe';
-    component.customer.email = 'john@example.com';
-    
-    // Disparamos el método createCustomer
-    component.createCustomer();
-    
-    // Comprobamos que el método createCustomer del servicio ha sido llamado con el customer adecuado
-    expect(customerServiceSpy.createCustomer).toHaveBeenCalledWith(mockCustomer);
   });
 
   it('should bind form fields to component properties', () => {
@@ -72,5 +56,62 @@ describe('CustomerAddComponent', () => {
     expect(component.customer.firstName).toBe('John');
     expect(component.customer.lastName).toBe('Doe');
     expect(component.customer.email).toBe('john@example.com');
+  });
+
+  it('should set isEditMode to true and load customer on init when id exists', async () => {
+    // Simulamos que existe ID
+    activatedRouteMock.snapshot.paramMap.get.and.returnValue('123');
+
+    const mockCustomer = new Customer('Jane', 'Doe', 'jane@example.com');
+    customerServiceSpy.getCustomerById.and.returnValue(of(mockCustomer));
+
+    // Volvemos a llamar ngOnInit manualmente
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    expect(component.isEditMode).toBeTrue();
+    expect(customerServiceSpy.getCustomerById).toHaveBeenCalledWith('123');
+    expect(component.customer.firstName).toBe('Jane');
+  });
+
+  it('should call updateCustomer when the form is submitted in edit mode', () => {
+    const mockCustomer = new Customer('Jane', 'Doe', 'jane@example.com');
+    component.customer = mockCustomer;
+    component.isEditMode = true;
+
+    customerServiceSpy.updateCustomer.and.returnValue(of(mockCustomer));
+
+    component.onSubmit();
+
+    expect(customerServiceSpy.updateCustomer).toHaveBeenCalledWith(mockCustomer);
+  });
+
+  it('should call createCustomer when the form is submitted in create mode', () => {
+    const mockCustomer = new Customer('John', 'Smith', 'johnsmith@example.com');
+  
+    customerServiceSpy.createCustomer.and.returnValue(of(mockCustomer));
+    
+    component.customer = mockCustomer;
+    component.isEditMode = false;
+    
+    component.onSubmit();
+    
+    expect(customerServiceSpy.createCustomer).toHaveBeenCalledWith(mockCustomer);
+  });
+
+  it('should display "Actualizar" on button when in edit mode', () => {
+    component.isEditMode = true;
+    fixture.detectChanges();
+    
+    const button = fixture.nativeElement.querySelector('button[type="submit"]');
+    expect(button.textContent.trim()).toBe('Actualizar');
+  });
+  
+  it('should display "Crear" on button when not in edit mode', () => {
+    component.isEditMode = false;
+    fixture.detectChanges();
+    
+    const button = fixture.nativeElement.querySelector('button[type="submit"]');
+    expect(button.textContent.trim()).toBe('Crear');
   });
 });
