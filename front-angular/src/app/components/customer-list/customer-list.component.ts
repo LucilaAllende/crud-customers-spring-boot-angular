@@ -9,7 +9,7 @@ import { Customer } from '../../class/customer';
 
 @Component({
   selector: 'app-customer-list',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatIconModule],
   standalone: true,
   templateUrl: './customer-list.component.html',
   styleUrl: './customer-list.component.css'
