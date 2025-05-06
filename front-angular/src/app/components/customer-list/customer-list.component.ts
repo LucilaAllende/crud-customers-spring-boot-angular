@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { CustomerService } from '../../service/customer.service';
-import { Customer } from '../../class/customer';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+
+import { ThemeService } from '../../service/theme.service';
+import { CustomerService } from '../../service/customer.service';
+import { Customer } from '../../class/customer';
 
 @Component({
   selector: 'app-customer-list',
