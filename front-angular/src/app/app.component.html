@@ -1,1 +1,26 @@
-<router-outlet></router-outlet>
+<div class="bg-white dark:bg-black">
+  <router-outlet></router-outlet>
+  @if (currentTheme !== 'dark') {
+    <button
+      (click)="changeTheme('dark')"
+      type="button"
+      class="block font-medium text-gray-800 rounded-full hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+    >
+      <span class="group inline-flex shrink-0 justify-center items-center size-9">
+        <mat-icon>dark_mode</mat-icon>
+      </span>
+    </button>
+  }
+  
+  @else {
+    <button
+      (click)="changeTheme('light')"
+      type="button"
+      class="block font-medium text-gray-800 rounded-full hover:bg-gray-200 focus:outline-none focus:bg-gray-200 dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800"
+    >
+      <span class="group inline-flex shrink-0 justify-center items-center size-9">
+        <mat-icon>light_mode</mat-icon>
+      </span>
+    </button>
+  }
+</div>
