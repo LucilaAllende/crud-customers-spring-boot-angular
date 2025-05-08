@@ -32,6 +32,7 @@ export class ThemeService {
 
   setTheme(theme: 'light' | 'dark' | 'auto') {
     localStorage.setItem('hs_theme', theme);
+    this.currentTheme$.next(theme);
     this.initTheme(); // Reaplica la lógica
   }
 
